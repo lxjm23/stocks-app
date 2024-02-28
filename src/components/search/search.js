@@ -27,9 +27,9 @@ const Search = ({onSearchChange}) =>{
   const handleChange = (searchData) =>{
     setSearch(searchData)
     onSearchChange(searchData)
-    console.log(searchData)
+    
   }
-  console.log(search)
+ 
   
 return(
   <AsyncPaginate 

@@ -7,6 +7,7 @@ import News from './components/news/news';
 import { STOCKS_URL } from './api';
 import { stocksOptions } from './api';
 import Stock_Info_Modal from './components/stock-info/stock-info-modal';
+import Watchlist from './components/watchlist/watchlist';
 
 function App() {
 
@@ -17,6 +18,13 @@ function App() {
   const [open_modal, setOpenModal] = useState(false)
   //end
 
+  //watchlist part
+  const [listData, setListData] = useState([]) // this is datafrom database //ex: stockList = ["AAPL","OXY", "ANF"]
+  
+  const [watchListInfo, setWatchListInfo] = useState(null) 
+
+
+
   const [trending, setTrending] = useState(null)
   const [news, setNews] = useState(null)
 
@@ -25,63 +33,108 @@ function App() {
     newsFetch()
   },[])
 
+  useEffect(()=>{
+    listFetch();
+    
+ }, [])
+
+  useEffect(() =>{
+    if (listData.length > 0){
+      fetchAllWatchList();
+    }
+  },[listData])
+ 
+
   // useEffect(() => {
   //   console.log(trending);
   //   console.log(news);
   // },[trending, news]);
   
+  
   const trendingFetch = async() =>{
     const response = await fetch(`${STOCKS_URL}markets/screener?list=trending`, stocksOptions);
 	  const result = await response.json();
     setTrending(result)
-    console.log(result)
+    
   }
-  console.log(trending)
+
 
   const newsFetch = async() =>{
     const response = await fetch(`${STOCKS_URL}markets/news`, stocksOptions)
     const result = await response.json();
     setNews(result)
   }
+
+  //watchlist part
+
+
+  //dummy data, real data will be fetched from database
+  const listFetch = () =>{
+    const stockList = ["AAPL","OXY", "ANF"]
+    setListData(stockList)
+  }
+
+  console.log(listData)
   
+  //
+  const fetchStock = async (stock) => {
+    try {
+      const response = await fetch(`${STOCKS_URL}markets/options?ticker=${stock}`, stocksOptions);
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error(`Error fetching stock ${stock}:`, error);
+      throw error;
+    }
+  };
 
+    
 
+  const fetchAllWatchList = async () =>{
+    const promises = listData.map(stock => fetchStock(stock));
 
-  //Search Part
+    try {
+      const results = await Promise.all(promises);
+      setWatchListInfo(results); 
+    } catch (error) {
+      console.error("Error fetching stocks:", error);
+    }
+  };
+
+    
+ console.log(watchListInfo)
+
+ //Search Part
   
   const handleSearchChange = async(searchData) =>{
     setOpenModal(true)
     setStockName(searchData.value)
     
-    const response = await fetch(`${STOCKS_URL}markets/stock/modules?ticker=${searchData.value}&module=financial-data`, stocksOptions)
+    
+    const response = await fetch(`${STOCKS_URL}markets/options?ticker=${searchData.value}`, stocksOptions)
     const result = await response.json()
-    console.log(result)
-    console.log("from handleChange")
     setStock_Data(result)
     
   }
 
-  //End
+  //End 
 
-
+  
   //MODAL PART
-  
-  
 
-  const handleModal = () =>{
-    setOpenModal(true)
-  }
-
+  
+ 
 
   //MODAL PART END
   
   return (
     <div className="container">
       <Search onSearchChange={handleSearchChange}/>
-      <button onClick={handleModal}>Open</button>
+      {watchListInfo  && <Watchlist data={watchListInfo} name={listData}/> }
+      {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} /> } 
       {trending && <Trending data={trending}/>}
       {news && <News data={news} />}
-      {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} /> } 
+      
     </div>
   );
 }
