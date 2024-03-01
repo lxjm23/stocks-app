@@ -8,3 +8,4 @@ export const stocksOptions = {
 
 
 export const STOCKS_URL = "https://yahoo-finance15.p.rapidapi.com/api/v1/"
+export const BACKEND_URL = "http://localhost:3001/"

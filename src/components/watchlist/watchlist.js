@@ -6,7 +6,20 @@ return(
   <>
     <h2>Watchlist</h2>
     {name.map((stock, idx) =>{
-      return <h3 key={idx}>{stock} : ${data[idx].body[0].quote.regularMarketPrice} ({data[idx].body[0].quote.regularMarketChangePercent.toFixed(2)}%)</h3>
+      const stockData = data[idx]?.body[0]
+      if(stockData){
+        const regularMarketPrice = stockData.quote.regularMarketPrice;
+        const regularMarketChangePercent = stockData.quote.regularMarketChangePercent.toFixed(2);
+        return (<h3 key={idx}>{stock.stock} : ${regularMarketPrice} ({regularMarketChangePercent}%)</h3>
+      )}
+      else {
+        return (
+          <h3 key = {idx}>
+            {stock.stock} : Data unavailable at the moment.
+          </h3>
+        )
+      }
+     
     })}
     
   </>
