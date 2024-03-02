@@ -1,20 +1,32 @@
 import "./watchlist.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+
 
 const Watchlist = ({data, name, onDelete}) =>{
+ 
+  const style = {
+
+  }
+
 
 return(
-  <>
-    <h2>Watchlist</h2>
+  <div className="watchlist-container">
+    <h2 className="title">Watchlist</h2>
+    <ol>
     {name.map((stock, idx) =>{
       const stockData = data[idx]?.body[0]
       if(stockData){
         const regularMarketPrice = stockData.quote.regularMarketPrice;
         const regularMarketChangePercent = stockData.quote.regularMarketChangePercent.toFixed(2);
         return (
-          <div key={idx}>
-          <h3 >{stock.stock} : ${regularMarketPrice} ({regularMarketChangePercent}%)</h3>
-          <button onClick={ () => onDelete(stock.stock)}>Delete</button>
+          <li key={idx}>
+          <div className="stock-data" >
+          
+          <p className="stock-name" >{stock.stock} :</p> <p> ${regularMarketPrice} (<span style={{color: regularMarketChangePercent >= 0 ? "green" : "red"}}> {regularMarketChangePercent}%</span>)</p>
+          <button onClick={ () => onDelete(stock.stock)}><FontAwesomeIcon icon={faTrashCan} style={{color: "#a80000",}} /></button>
           </div>
+          </li>
           
       )}
       else {
@@ -26,8 +38,9 @@ return(
       }
      
     })}
+    </ol>
     
-  </>
+  </div>
 
 )
 }

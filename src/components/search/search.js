@@ -31,15 +31,17 @@ const Search = ({onSearchChange}) =>{
     onSearchChange(searchData)
     
   }
- 
+
+  
   
 return(
-  <AsyncPaginate 
+  <AsyncPaginate className="searchBar"
     placeholder = "Search for stock"
     debounceTimeout={600}
     value={search}
     onChange={handleChange}
     loadOptions={loadOptions}
+    
   />
 )
 

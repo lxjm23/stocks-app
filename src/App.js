@@ -11,8 +11,7 @@ import Stock_Info_Modal from './components/stock-info/stock-info-modal';
 import Watchlist from './components/watchlist/watchlist';
 
 function App() {
-  //idk
-  const [clear, setClear] =useState(null)
+ 
 
   //search part
   const [stockName, setStockName] = useState(null)
@@ -45,15 +44,8 @@ function App() {
     if (listData.length > 0){
       fetchAllWatchList();
     }
-  },[listData])
+  },[listData], 1000)
  
-
-  // useEffect(() => {
-  //   console.log(trending);
-  //   console.log(news);
-  // },[trending, news]);
-  
-  
   const trendingFetch = async() =>{
     const response = await fetch(`${STOCKS_URL}markets/screener?list=trending`, stocksOptions);
 	  const result = await response.json();
@@ -187,17 +179,37 @@ function App() {
   }
 
 
- 
+ const [dontLoad, setDontLoad] = useState(false)
   
   return (
-    <div className="container">
-      <Search onSearchChange={handleSearchChange} />
-      {watchListInfo  && <Watchlist data={watchListInfo} name={listData} onDelete={ onDelete}/> }
-      {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} onAdd={addToWatchList} /> } 
-      {trending && <Trending data={trending}/>}
+    
+    
+    <div className="app">
+    <div className="header"> <h1 className="title">STOCK MONITOR</h1> <Search onSearchChange={handleSearchChange} /></div>
+    <div className='watchlist-trending-container'>
+    {watchListInfo  && <Watchlist data={watchListInfo} name={listData} onDelete={ onDelete}/> }
+    {trending && <Trending data={trending}/>}
+    </div>
+    
+    
+      
       {news && <News data={news} />}
+    
+
+    
+      {dontLoad && <div>
+     
+      {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} onAdd={addToWatchList} /> } 
+      
+     
+      </div>
+      }
+      
+      
+      
       
     </div>
+    
   );
 }
 
