@@ -1,7 +1,8 @@
-const Stock_Info_Modal = ({closeModal, data, onAdd,  }) =>{
+const Stock_Info_Modal = ({closeModal, data, onAdd}) =>{
 
   const handleCloseModal = () =>{
     closeModal(false);
+  
   }
   
   return(

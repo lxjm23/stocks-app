@@ -1,6 +1,6 @@
 import "./watchlist.css"
 
-const Watchlist = ({data, name}) =>{
+const Watchlist = ({data, name, onDelete}) =>{
 
 return(
   <>
@@ -10,7 +10,12 @@ return(
       if(stockData){
         const regularMarketPrice = stockData.quote.regularMarketPrice;
         const regularMarketChangePercent = stockData.quote.regularMarketChangePercent.toFixed(2);
-        return (<h3 key={idx}>{stock.stock} : ${regularMarketPrice} ({regularMarketChangePercent}%)</h3>
+        return (
+          <div key={idx}>
+          <h3 >{stock.stock} : ${regularMarketPrice} ({regularMarketChangePercent}%)</h3>
+          <button onClick={ () => onDelete(stock.stock)}>Delete</button>
+          </div>
+          
       )}
       else {
         return (

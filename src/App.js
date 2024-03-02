@@ -11,6 +11,8 @@ import Stock_Info_Modal from './components/stock-info/stock-info-modal';
 import Watchlist from './components/watchlist/watchlist';
 
 function App() {
+  //idk
+  const [clear, setClear] =useState(null)
 
   //search part
   const [stockName, setStockName] = useState(null)
@@ -22,6 +24,7 @@ function App() {
   const [listData, setListData] = useState([]) // this is datafrom database //ex: stockList = ["AAPL","OXY", "ANF"]
   
   const [watchListInfo, setWatchListInfo] = useState(null) 
+  
 
 
 
@@ -106,6 +109,7 @@ function App() {
 
     
  console.log(watchListInfo)
+ console.log(listData)
 
  //Search Part
   
@@ -159,13 +163,37 @@ function App() {
     })
   }
 
+  const onDelete = (stock) =>{
+    const symbol = stock
+    fetch(`${BACKEND_URL}api/delete`,{
+      method: "DELETE",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({symbol})
+    }).then(res =>{
+      if(!res.ok){
+        throw new Error("Network response was not okay");
+      }return res.json()
+    }).then(data => {
+      console.log(data)
 
+      // Remove the deleted stock from the list
+      setListData((prevListData) => 
+        prevListData.filter((item) =>{
+          return item.stock !== symbol
+        }) )
+    })
+  }
+
+
+ 
   
   return (
     <div className="container">
-      <Search onSearchChange={handleSearchChange}/>
-      {watchListInfo  && <Watchlist data={watchListInfo} name={listData}/> }
-      {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} onAdd={addToWatchList}/> } 
+      <Search onSearchChange={handleSearchChange} />
+      {watchListInfo  && <Watchlist data={watchListInfo} name={listData} onDelete={ onDelete}/> }
+      {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} onAdd={addToWatchList} /> } 
       {trending && <Trending data={trending}/>}
       {news && <News data={news} />}
       
