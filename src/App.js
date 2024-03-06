@@ -178,7 +178,9 @@ function App() {
     })
   }
 
+  
 
+  
  const [dontLoad, setDontLoad] = useState(false)
   
   return (
@@ -186,20 +188,21 @@ function App() {
     
     <div className="app">
     <div className="header"> <h1 className="title">STOCK MONITOR</h1> <Search onSearchChange={handleSearchChange} /></div>
+     
+    {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} onAdd={addToWatchList} /> } 
+      
     <div className='watchlist-trending-container'>
     {watchListInfo  && <Watchlist data={watchListInfo} name={listData} onDelete={ onDelete}/> }
     {trending && <Trending data={trending}/>}
     </div>
+      {news && <News data={news} />}
     
     
       
-      {news && <News data={news} />}
     
 
     
       {dontLoad && <div>
-     
-      {open_modal && stock_data && <Stock_Info_Modal closeModal={setOpenModal} data={stock_data} onAdd={addToWatchList} /> } 
       
      
       </div>
