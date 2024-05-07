@@ -17,3 +17,6 @@ This web application allows users to track trending stocks. It provides informat
 - JavaScript
 - CSS
 - MongoDB
+
+### Link to Backend
+https://github.com/lxjm23/backend-stocks-app
