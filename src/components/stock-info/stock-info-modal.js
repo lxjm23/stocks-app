@@ -17,8 +17,8 @@ const Stock_Info_Modal = ({closeModal, data, onAdd}) =>{
       </div>
 
       <div className="modal-header-right">
-        <button>X</button>
-        <button>Add to watch list</button>
+        <button onClick={() => handleCloseModal()}>X</button>
+        <button onClick={() => onAdd()}>Add to watch list</button>
         <i className="fa-regular fa-circle-xmark"></i>
       </div>
     </div>
