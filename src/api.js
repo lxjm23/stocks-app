@@ -1,11 +1,10 @@
 export const stocksOptions = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': 'fe1da5e5f7mshfe3fa5caa60d69cp1e4352jsn6682a92174e5',
-		'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
+		'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
+		'X-RapidAPI-Host': process.env.REACT_APP_RAPIDAPI_HOST
 	}
 };
 
-
-export const STOCKS_URL = "https://yahoo-finance15.p.rapidapi.com/api/v1/"
-export const BACKEND_URL = "http://localhost:3001/"
+export const STOCKS_URL = process.env.REACT_APP_STOCKS_URL;
+export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;

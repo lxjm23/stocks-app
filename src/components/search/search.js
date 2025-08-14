@@ -14,9 +14,11 @@ const Search = ({onSearchChange}) =>{
     .then((response) => {
       return {
         options: response.body.map((stock) =>{
+          console.log(stock)
           return {
             value: `${stock.symbol}`,
-            label: `${stock.name}, (${stock.exchDisp})`
+            label: `${stock.symbol}, ${stock.shortname} (${stock.exchDisp})`
+            
           }
         })
       }
